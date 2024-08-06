@@ -16,12 +16,20 @@ if [ -f $TRUSTSTORE ]; then
 fi
 
 echo "Adding certificate to $TRUSTSTORE..."
-keytool -import -v -trustcacerts -alias $ALIAS \
-      -file $CACERT \
-      -keystore $TRUSTSTORE -storetype BKS \
-      -providerclass org.bouncycastle.jce.provider.BouncyCastleProvider \
-      -providerpath $BCJAR \
-      -storepass secret
+keytool -importcert \
+  -file $CACERT \
+  -keystore $TRUSTSTORE \
+  -provider org.bouncycastle.jce.provider.BouncyCastleProvider \
+  -providerpath /opt/providers/bcprov-jdk15on-159.jar \
+  -storetype BKS \
+  -storepass secret
+  
+# keytool -import -v -trustcacerts -alias $ALIAS \
+#       -file $CACERT \
+#       -keystore $TRUSTSTORE -storetype BKS \
+#       -providerclass org.bouncycastle.jce.provider.BouncyCastleProvider \
+#       -providerpath $BCJAR \
+#       -storepass secret
 
 echo "" 
 echo "Added '$CACERT' with alias '$ALIAS' to $TRUSTSTORE..."
